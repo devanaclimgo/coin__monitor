@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "crypto-browserify": "^3.12.1",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.2",
+    "vite-plugin-ruby": "^5.1.1"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.4.4",
+    "@react-three/fiber": "^9.2.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@types/three": "^0.178.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "three": "^0.178.0"
+  }
+}
