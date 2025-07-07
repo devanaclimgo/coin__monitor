@@ -57,3 +57,5 @@ group :test do
 end
 
 gem "vite_rails", "~> 3.0"
+
+gem "chartkick", "~> 5.2"
