@@ -1,22 +1,22 @@
-import { useEffect, useRef } from 'react'
-import { createColumnChart } from 'chartkick'
+import { useEffect, useState } from 'react'
+import { ColumnChart } from 'chartkick'
+import 'chartkick/chart.js'
 
 export function ChartComponent() {
-  const chartRef = useRef<HTMLDivElement>(null)
+  const [chartData, setChartData] = useState<Record<string, number>>({})
 
   useEffect(() => {
     fetch('/home/index.json')
       .then(response => response.json())
-      .then(data => {
-        if (chartRef.current) {
-          createColumnChart(chartRef.current, {
-            data: data,
-            xtitle: 'Date',
-            ytitle: 'Rate',
-          })
-        }
-      })
+      .then(setChartData)
   }, [])
 
-  return <div ref={chartRef} style={{ height: '500px' }} />
+  return (
+    <ColumnChart 
+      data={chartData} 
+      xtitle="Date" 
+      ytitle="Rate" 
+      height="500px"
+    />
+  )
 }
