@@ -3,6 +3,7 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^24.0.10",
+    "@vitejs/plugin-react": "^4.6.0",
     "crypto-browserify": "^3.12.1",
     "typescript": "^5.8.3",
     "vite": "^7.0.2",
