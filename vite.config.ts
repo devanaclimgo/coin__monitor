@@ -19,7 +19,9 @@ export default defineConfig({
       '@react-three/fiber',
       '@react-three/drei',
       'three',
-      'crypto-browserify'
+      'crypto-browserify',
+      'chartkick',
+      'chart.js'
     ],
   },
 })
