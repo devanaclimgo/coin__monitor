@@ -11,6 +11,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './app/frontend'),
+      'three': path.resolve(__dirname, './node_modules/three'),
       crypto: 'crypto-browserify'
     },
   },
