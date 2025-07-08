@@ -26,5 +26,7 @@ class HomeController < ApplicationController
     end
 
     puts @chart_data.inspect
+
+    render file: Rails.root.join("public", "vite-assets", "index.html"), layout: false
   end
 end
