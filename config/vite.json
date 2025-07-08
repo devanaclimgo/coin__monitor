@@ -12,5 +12,7 @@
     "autoBuild": true,
     "publicOutputDir": "vite-test",
     "port": 3037
-  }
+  },
+  "root": "app/frontend",
+  "entrypoints": { "application": "entrypoints/application.tsx" }
 }
