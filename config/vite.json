@@ -14,5 +14,6 @@
     "port": 3037
   },
   "root": "app/frontend",
+  "publicOutputDir": "vite-assets",
   "entrypoints": { "application": "entrypoints/application.tsx" }
 }
