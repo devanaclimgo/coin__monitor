@@ -1,22 +1,15 @@
-import { useEffect, useState } from 'react'
 import { ColumnChart } from 'chartkick'
 import 'chartkick/chart.js'
+import { useState, useEffect } from 'react'
 
 export function ChartComponent() {
-  const [chartData, setChartData] = useState<Record<string, number>>({})
+  const [data, setData] = useState({})
 
   useEffect(() => {
     fetch('/home/index.json')
-      .then(response => response.json())
-      .then(setChartData)
+      .then(res => res.json())
+      .then(setData)
   }, [])
 
-  return (
-    <ColumnChart 
-      data={chartData} 
-      xtitle="Date" 
-      ytitle="Rate" 
-      height="500px"
-    />
-  )
+  return <ColumnChart data={data} xtitle="Date" ytitle="Rate" height="500px" />
 }
