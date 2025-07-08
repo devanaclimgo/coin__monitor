@@ -1,18 +1,16 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import CurrencyDashboard from '../components/CurrencyDashboard';
-import '@/styles/application.css';
-import '@hotwired/turbo-rails';
-import 'chart.js/auto';
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import Page from '@/lib/page'
+import '@/styles/application.css'
 
 document.addEventListener('DOMContentLoaded', () => {
-  const rootElement = document.getElementById('root');
+  const rootElement = document.getElementById('root')
   if (rootElement) {
-    const root = createRoot(rootElement);
+    const root = createRoot(rootElement)
     root.render(
       <React.StrictMode>
-        <CurrencyDashboard />
+        <Page />
       </React.StrictMode>
-    );
+    )
   }
-});
+})
