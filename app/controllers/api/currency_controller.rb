@@ -6,7 +6,7 @@ class Api::CurrencyController < ApplicationController
       { code: "BTC-BRL", name: "Bitcoin", symbol: "₿" }
     ]
 
-    @chart_data = currencies.map do |currency|
+    data = currencies.map do |currency|
       url = URI("https://economia.awesomeapi.com.br/json/daily/#{currency[:code]}/15")
       response = Net::HTTP.get(url)
       api_data = JSON.parse(response)
@@ -21,6 +21,6 @@ class Api::CurrencyController < ApplicationController
       }
     end
 
-    render json: @chart_data
+    render json: data
   end
 end
