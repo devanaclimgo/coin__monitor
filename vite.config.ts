@@ -8,9 +8,14 @@ export default defineConfig({
     RubyPlugin(),
     react(),
   ],
+  build: {
+    outDir: '../public/vite-assets',
+    emptyOutDir: true,
+    manifest: true
+  },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './app/frontend'),
+      '@': path.resolve(__dirname, './'),
       'three': path.resolve(__dirname, './node_modules/three'),
       crypto: 'crypto-browserify'
     },
