@@ -1,6 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import Page from '@/lib/page'
+import Page from '../lib/page.tsx'
 import '@/styles/application.css'
 
 document.addEventListener('DOMContentLoaded', () => {
