@@ -1,11 +1,16 @@
 {
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "emitDeclarationOnly": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true,
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./app/frontend/*"],
+      "@/*": ["./*"],
       "@/components/*": ["./app/frontend/components/*"]
     },
     "jsx": "react-jsx",
