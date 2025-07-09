@@ -6,7 +6,13 @@ import path from 'path'
 export default defineConfig({
   plugins: [
     RubyPlugin(),
-    react(),
+    react({
+      babel: {
+        plugins: [
+          ['@babel/plugin-proposal-decorators', { legacy: true }]
+        ]
+      }
+    }),
   ],
   build: {
     outDir: '../public/vite-assets',
@@ -14,6 +20,7 @@ export default defineConfig({
     manifest: true
   },
   resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       '@': path.resolve(__dirname, './'),
       'three': path.resolve(__dirname, './node_modules/three'),
