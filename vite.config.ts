@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import RubyPlugin from 'vite-plugin-ruby'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import autoprefixer from 'autoprefixer'
 
 export default defineConfig({
   plugins: [
@@ -39,9 +40,8 @@ export default defineConfig({
   },
   css: {
     postcss: {
-      plugins: [
-        require('tailwindcss'),
-        require('autoprefixer'),
+     plugins: [
+        autoprefixer()
       ],
     },
   },
