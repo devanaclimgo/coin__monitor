@@ -37,4 +37,12 @@ export default defineConfig({
       'chart.js'
     ],
   },
+  css: {
+    postcss: {
+      plugins: [
+        require('tailwindcss'),
+        require('autoprefixer'),
+      ],
+    },
+  },
 })
