@@ -45,4 +45,11 @@ export default defineConfig({
       ],
     },
   },
+   server: {
+    port: 3036,
+    proxy: {
+      '/api': 'http://localhost:3000',
+      '/assets': 'http://localhost:3000'
+    }
+  },
 })
