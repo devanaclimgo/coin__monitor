@@ -2,14 +2,11 @@ import * as THREE from 'three';
 import { useState, useEffect } from "react";
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import { Moon, Sun, TrendingUp, TrendingDown, Activity } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { CurrencyData } from '@/types';
-import Bitcoin3D from './threejs/Bitcoin3D';
-import CurrencySymbol3D from './threejs/CurrencySymbol3D';
+import { CurrencyData } from '../types';
 import Background3D from './threejs/Background3D';
+import CurrencyCard from './CurrencyCard';
+
+fetch("/app/controllers/api/currency_controller.rb")
 
 export default function CurrencyDashboard() {
   const [currencyData, setCurrencyData] = useState<CurrencyData[]>([]);

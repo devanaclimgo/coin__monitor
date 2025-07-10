@@ -11,6 +11,8 @@ import { Button } from "../components/ui/button"
 import Background3D from "./threejs/Background3D"
 import { CurrencyData } from "../types"
 
+fetch("/app/controllers/api/currency_controller.rb")
+
 export default function CryptoMonitor3D() {
   const [isDark, setIsDark] = useState(true)
   const [currencies, setCurrencies] = useState<CurrencyData[]>([])

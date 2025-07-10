@@ -1,7 +1,9 @@
 import { TrendingUp, TrendingDown, Activity } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CurrencyData } from '@/types'
+import { CurrencyData } from '../types'
+
+fetch("/app/controllers/api/currency_controller.rb")
 
 export default function CurrencyCard({
   currency,

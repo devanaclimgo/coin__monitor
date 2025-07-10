@@ -2,6 +2,8 @@ import { ColumnChart } from 'chartkick'
 import 'chartkick/chart.js'
 import { useState, useEffect } from 'react'
 
+fetch("/app/controllers/api/currency_controller.rb")
+
 export function ChartComponent() {
   const [data, setData] = useState({})
 

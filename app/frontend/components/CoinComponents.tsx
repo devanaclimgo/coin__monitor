@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
+fetch("/app/controllers/api/currency_controller.rb")
+
 interface Coin {
   id: string
   name: string
