@@ -1,3 +1,2 @@
-
+web: bundle exec rails server
 vite: bin/vite dev
-web: bin/rails s
