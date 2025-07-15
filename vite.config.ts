@@ -42,11 +42,11 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3036,
+    port: 5502,
     strictPort: true,
     proxy: {
       '^/(assets|api|vite-dev)': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:5502',
         changeOrigin: true,
       },
     },
