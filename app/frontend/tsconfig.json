@@ -11,7 +11,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@/components/*": ["./app/frontend/components/*"]
+      "@/components/*": ["./components/*"]
     },
     "jsx": "react-jsx",
     "strict": true,
@@ -19,6 +19,6 @@
     "skipLibCheck": true,
     "types": ["vite/client", "node"]
   },
-  "include": ["app/frontend/**/*", "app/frontend/vite.config.ts"],
+  "include": ["./**/*", "./vite.config.ts"],
   "exclude": ["node_modules"]
 }
