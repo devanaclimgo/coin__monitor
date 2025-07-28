@@ -18,6 +18,8 @@ export default defineConfig({
     emptyOutDir: true,
     manifest: true,
   },
+  publicDir: '../public',
+  base: '/',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
