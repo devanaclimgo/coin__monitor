@@ -57,3 +57,14 @@
     --chart-5: 340 75% 55%
   }
 }
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 700;
+  src: url('/fonts/Inter-Bold.ttf') format('truetype');
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
