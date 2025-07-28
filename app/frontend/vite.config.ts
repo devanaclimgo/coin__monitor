@@ -44,11 +44,5 @@ export default defineConfig({
   server: {
     port: 5173,
     strictPort: true,
-    proxy: {
-      '^/(assets|api|vite-dev)': {
-        target: 'http://localhost:5173',
-        changeOrigin: true,
-      },
-    },
   },
 });
