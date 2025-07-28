@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
@@ -58,12 +58,6 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%
   }
-}
-
-@font-face {
-  font-family: 'Inter';
-  font-weight: 700;
-  src: url('/fonts/Inter-Bold.ttf') format('truetype');
 }
 
 body {
