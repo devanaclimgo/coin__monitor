@@ -1,0 +1,11 @@
+{
+  "../../entrypoints/application.tsx": {
+    "file": "assets/application-BGA-aS7S.js",
+    "name": "application",
+    "src": "../../entrypoints/application.tsx",
+    "isEntry": true,
+    "css": [
+      "assets/application-C74UKImM.css"
+    ]
+  }
+}
