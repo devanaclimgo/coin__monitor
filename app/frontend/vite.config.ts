@@ -17,6 +17,11 @@ export default defineConfig({
     outDir: '../public/vite-assets',
     emptyOutDir: true,
     manifest: true,
+    rollupOptions: {
+      input: {
+        application: path.resolve(__dirname, './entrypoints/application.tsx'),
+      },
+    },
   },
   publicDir: '../public',
   base: '/',
