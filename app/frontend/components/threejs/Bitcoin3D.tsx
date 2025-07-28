@@ -24,7 +24,7 @@ export default memo(function Bitcoin3D({ position = [0, 0, 0], scale = 1 }: { po
           color="#ffffff"
           anchorX="center"
           anchorY="middle"
-          font="/fonts/Inter-Bold.ttf"
+          font="../../styles/application.css"
         >
           ₿
         </Text>
