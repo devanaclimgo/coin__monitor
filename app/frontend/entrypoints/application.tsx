@@ -1,16 +1,7 @@
 import React from 'react'
-import { createRoot } from 'react-dom/client'
-import Page from '../lib/page.tsx'
+import ReactDOM from 'react-dom/client'
 import '../styles/application.css'
+import App from '@/components/App'
 
-document.addEventListener('DOMContentLoaded', () => {
-  const rootElement = document.getElementById('root')
-  if (rootElement) {
-    const root = createRoot(rootElement)
-    root.render(
-      <React.StrictMode>
-        <Page />
-      </React.StrictMode>
-    )
-  }
-})
+const root = ReactDOM.createRoot(document.getElementById('root')!)
+root.render(<App />)
