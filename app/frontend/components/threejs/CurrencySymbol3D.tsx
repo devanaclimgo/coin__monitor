@@ -28,7 +28,6 @@ export default function CurrencySymbol3D({
           color="#ffffff"
           anchorX="center"
           anchorY="middle"
-          font="../../styles/application.css"
         >
           {symbol}
         </Text>
