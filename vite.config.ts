@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import { defineConfig } from 'vite';
 import RubyPlugin from 'vite-plugin-ruby';
 import react from '@vitejs/plugin-react';
@@ -18,9 +20,7 @@ export default defineConfig({
     emptyOutDir: true,
     manifest: true,
     rollupOptions: {
-      input: {
-        application: path.resolve(__dirname, './entrypoints/application.tsx'),
-      },
+      input: 'app/frontend/entrypoints/application.tsx',
     },
   },
   publicDir: '../public',
@@ -49,6 +49,7 @@ export default defineConfig({
     },
   },
   server: {
+    host: 'localhost',
     port: 5173,
     strictPort: true,
   },
