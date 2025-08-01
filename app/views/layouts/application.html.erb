@@ -8,6 +8,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= favicon_link_tag 'favicon.ico' %>
+    <link rel="apple-touch-icon" href="<%= asset_path 'apple-touch-icon.png' %>">
+
+
     <%= yield :head %>
 
     <%= vite_client_tag %>
