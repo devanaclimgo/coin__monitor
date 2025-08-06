@@ -3,6 +3,6 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   def frontend
-  render layout: "application"
+    render layout: "application"
   end
 end
