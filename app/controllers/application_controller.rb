@@ -3,6 +3,6 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   def frontend
-    render file: Rails.public_path.join("vite-assets", "./application_controller.rb"), layout: false
+  render layout: "application"
   end
 end
