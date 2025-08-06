@@ -1,26 +1,32 @@
 class Api::CurrencyController < ApplicationController
-  def index
-    currencies = [
-      { code: "USD-BRL", name: "US Dollar", symbol: "$" },
-      { code: "EUR-BRL", name: "Euro", symbol: "€" },
-      { code: "BTC-BRL", name: "Bitcoin", symbol: "₿" }
-    ]
+  CURRENCIES = [
+    { code: "USD-BRL", color: "#22c55e" }, # green
+    { code: "EUR-BRL", color: "#3b82f6" }, # blue
+    { code: "BTC-BRL", color: "#f59e0b" }  # orange
+  ]
 
-    data = currencies.map do |currency|
+  def index
+    chart_data = CURRENCIES.map do |currency|
       url = URI("https://economia.awesomeapi.com.br/json/daily/#{currency[:code]}/15")
       response = Net::HTTP.get(url)
-      api_data = JSON.parse(response)
+      data = JSON.parse(response)
+
+      sorted_data = data.sort_by { |entry| entry["timestamp"].to_i }
+
+      sparkline = sorted_data.map { |entry| entry["high"].to_f }
+      latest = sorted_data.last
+      previous = sorted_data[-2]
 
       {
-        name: currency[:name],
-        symbol: currency[:symbol],
-        price: api_data.first["high"].to_f,
-        change24h: api_data.first["pctChange"].to_f,
-        sparklineData: api_data.map { |d| d["high"].to_f }.reverse,
-        color: currency[:code] == "BTC-BRL" ? "#f7931a" : "#3b82f6"
+        symbol: currency[:code],
+        name: currency[:code].gsub("-", " to "),
+        price: latest["high"].to_f,
+        change24h: latest["pctChange"].to_f,
+        sparklineData: sparkline,
+        color: currency[:color]
       }
     end
 
-    render json: data
+    render json: chart_data
   end
 end
