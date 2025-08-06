@@ -17,7 +17,7 @@ export default function CryptoMonitor3D() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/currency_data')
+    fetch('../../controllers/api/currency_controller.rb?action=get_all_currencies')
       .then(res => res.json())
       .then(data => {
         setCurrencies(data)
