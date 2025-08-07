@@ -15,7 +15,6 @@ class Api::CurrencyController < ApplicationController
 
       sparkline = sorted_data.map { |entry| entry["high"].to_f }
       latest = sorted_data.last
-      previous = sorted_data[-2]
 
       {
         symbol: currency[:code],
