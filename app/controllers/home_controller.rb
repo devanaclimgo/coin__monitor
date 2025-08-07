@@ -1,7 +1,7 @@
 require "net/http"
 require "json"
 
-class HomeController < ApplicationController
+class CurrencyController < ApplicationController
   CURRENCIES = [
     { code: "USD-BRL" },
     { code: "EUR-BRL" },
@@ -16,15 +16,14 @@ class HomeController < ApplicationController
       response = Net::HTTP.get(url)
       data = JSON.parse(response)
 
-      {
-      name: currency[:code],
-      data: data.each_with_object({}) do |entry, hash|
-        date = Time.at(entry["timestamp"].to_i).strftime("%d/%m/%y")
-        hash[date] = entry["high"].to_f
-      end
-    }
+      @chart_data << {
+        name: currency[:code],
+        data: data.each_with_object({}) do |entry, hash|
+          date = Time.at(entry["timestamp"].to_i).strftime("%d/%m/%y")
+          hash[date] = entry["high"].to_f
+        end
+      }
     end
-
     puts @chart_data.inspect
   end
 end
