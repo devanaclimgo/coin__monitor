@@ -1,8 +1,8 @@
 class Api::CurrencyController < ApplicationController
   CURRENCIES = [
-    { code: "USD-BRL", color: "#22c55e" }, # green
-    { code: "EUR-BRL", color: "#3b82f6" }, # blue
-    { code: "BTC-BRL", color: "#f59e0b" }  # orange
+    { code: "USD-BRL", color: "#22c55e" },
+    { code: "EUR-BRL", color: "#3b82f6" },
+    { code: "BTC-BRL", color: "#f59e0b" }
   ]
 
   def index
