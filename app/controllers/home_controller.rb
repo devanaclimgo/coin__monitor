@@ -1,7 +1,7 @@
 require "net/http"
 require "json"
 
-class CurrencyController < ApplicationController
+class HomeController < ApplicationController
   CURRENCIES = [
     { code: "USD-BRL" },
     { code: "EUR-BRL" },
