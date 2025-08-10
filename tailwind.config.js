@@ -4,6 +4,7 @@ module.exports = {
     './app/frontend/**/*.{js,ts,jsx,tsx}',
     './app/views/**/*.{html,erb}',
     './app/helpers/**/*.rb',
+    './**/*.tsx',
   ],
   theme: {
     extend: {
