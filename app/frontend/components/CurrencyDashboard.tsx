@@ -1,9 +1,5 @@
-import * as THREE from 'three';
 import { useState, useEffect } from "react";
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
 import { CurrencyData } from '../types';
-import Background3D from './threejs/Background3D';
 import CurrencyCard from './CurrencyCard';
 
 fetch("/app/controllers/api/currency_controller.rb")

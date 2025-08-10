@@ -1,14 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
 import { Moon, Sun, Activity } from 'lucide-react'
 import { TrendingUp, TrendingDown } from 'lucide-react'
 import { Badge } from '../components/ui/badge'
 import { Card, CardContent } from '../components/ui/card'
 import { Button } from '../components/ui/button'
-import Background3D from './threejs/Background3D'
 import { CurrencyData } from '../types'
 
 export default function CryptoMonitor3D() {
