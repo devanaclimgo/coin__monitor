@@ -29,15 +29,11 @@ export default defineConfig({
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       '@': path.resolve(__dirname, './'),
-      three: path.resolve(__dirname, './node_modules/three'),
       crypto: 'crypto-browserify',
     },
   },
   optimizeDeps: {
     include: [
-      '@react-three/fiber',
-      '@react-three/drei',
-      'three',
       'crypto-browserify',
       'chartkick',
       'chart.js',
