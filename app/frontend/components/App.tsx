@@ -1,8 +1,6 @@
 import React from 'react'
-import CryptoMonitor3D from './CryptoMonitor3D'
+import CryptoMonitor from './crypto-monitor'
 
 export default function App() {
-  return (
-      <CryptoMonitor3D />
-  )
+  return <CryptoMonitor />
 }
