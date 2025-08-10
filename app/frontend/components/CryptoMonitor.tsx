@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react'
 import { Moon, Sun, Activity } from 'lucide-react'
 import { TrendingUp, TrendingDown } from 'lucide-react'
-import { Badge } from '../components/ui/badge'
-import { Card, CardContent } from '../components/ui/card'
-import { Button } from '../components/ui/button'
+import { Badge } from './ui/badge'
+import { Card, CardContent } from './ui/card'
+import { Button } from './ui/button'
 import { CurrencyData } from '../types'
 
 export default function CryptoMonitor3D() {
