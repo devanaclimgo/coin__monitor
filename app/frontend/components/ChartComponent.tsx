@@ -1,17 +1,35 @@
-import { ColumnChart } from 'chartkick'
+import React, { useEffect, useState } from 'react'
+import { LineChart } from 'react-chartkick'
 import 'chartkick/chart.js'
-import { useState, useEffect } from 'react'
 
-fetch("/app/controllers/api/currency_controller.rb")
+interface ApiCurrency {
+  symbol: string
+  sparklineData: number[]
+}
 
 export function ChartComponent() {
-  const [data, setData] = useState({})
+  const [data, setData] = useState<any>(null)
 
   useEffect(() => {
-    fetch('/home/index.json')
-      .then(res => res.json())
-      .then(setData)
+    fetch('/api/currency')
+      .then(res => {
+        if (!res.ok) throw new Error(res.statusText)
+        return res.json()
+      })
+      .then((json: ApiCurrency[]) => {
+        const chartData = json.map((item) => ({
+          name: item.symbol,
+          data: item.sparklineData.reduce((acc: any, price: number, idx: number) => {
+            acc[idx] = price
+            return acc
+          }, {})
+        }))
+        setData(chartData)
+      })
+      .catch(err => console.error(err))
   }, [])
 
-  return <ColumnChart data={data} xtitle="Date" ytitle="Rate" height="500px" />
+  if (!data) return <div>Loading chart...</div>
+
+  return <LineChart data={data} xtitle="Index" ytitle="Price" />
 }
