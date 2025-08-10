@@ -3,8 +3,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CurrencyData } from '../types'
 
-fetch("/app/controllers/api/currency_controller.rb")
-
 export default function CurrencyCard({
   currency,
   isDark,
@@ -17,7 +15,8 @@ export default function CurrencyCard({
   const isPositive = currency.change24h >= 0
 
   return (
-    <Card className={`relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl
+    <Card
+      className={`relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl
       ${isDark ? "bg-black/20 border-white/10 hover:bg-black/30" : "bg-white/20 border-black/10 hover:bg-white/30"}
       backdrop-blur-xl border`}
       onClick={onClick}
@@ -39,9 +38,7 @@ export default function CurrencyCard({
           <div className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>
             {currency.symbol.includes("BTC") ? `$${currency.price.toLocaleString()}` : `R$ ${currency.price.toFixed(4)}`}
           </div>
-          <div className="h-8">
-            {/* Sparkline would go here */}
-          </div>
+          <div className="h-8">{/* Sparkline here */}</div>
         </div>
 
         <div className="flex items-center gap-2 text-xs text-gray-500">
