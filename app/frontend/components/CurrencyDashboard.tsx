@@ -20,11 +20,6 @@ export default function CurrencyDashboard() {
 
   return (
     <div className="relative h-screen w-full">
-      {/* 3D Canvas Background */}
-      <Canvas>
-        <Background3D />
-        <OrbitControls />
-      </Canvas>
 
       {/* UI Overlay */}
       <div className="absolute inset-0 pointer-events-none p-8">

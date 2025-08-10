@@ -58,18 +58,6 @@ export default function CryptoMonitor3D() {
           : 'bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50'
       }`}
     >
-      {/* 3D Background Canvas */}
-      <div className="fixed inset-0 z-0">
-        <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
-          <Background3D />
-          <OrbitControls
-            enableZoom={false}
-            enablePan={false}
-            autoRotate
-            autoRotateSpeed={0.5}
-          />
-        </Canvas>
-      </div>
 
       {/* UI Overlay */}
       <div className="relative z-10 min-h-screen p-6">
