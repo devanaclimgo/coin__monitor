@@ -56,8 +56,6 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "vite_rails", "~> 3.0"
-
 gem "chartkick", "~> 5.2"
 
 gem "rack-cors"
