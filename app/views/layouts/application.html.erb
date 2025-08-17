@@ -3,20 +3,21 @@
   <head>
     <title><%= content_for(:title) || "Coin Monitor" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
 
     <%= favicon_link_tag '/favicon.ico' %>
     <link rel="icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="<%= asset_path 'apple-touch-icon.png' %>">
 
-    <%= yield :head %>
-
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <div id="root"></div>
+  <body class="bg-gray-50 text-gray-900">
+    <%= yield %>
   </body>
 </html>
