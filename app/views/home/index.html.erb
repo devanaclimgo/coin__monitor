@@ -1,1 +1,53 @@
-<div id="root"></div>
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white">
+  <header class="p-6 flex justify-between items-center max-w-7xl mx-auto">
+    <div>
+      <h1 class="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+        Crypto Monitor
+      </h1>
+      <p class="text-sm text-gray-300 mt-1">Real-time currency monitoring</p>
+    </div>
+  </header>
+
+  <main class="p-6 max-w-7xl mx-auto">
+    <!-- Currency Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @currencies.each do |currency| %>
+        <div class="p-6 rounded-xl bg-white/10 backdrop-blur-xl hover:scale-105 hover:shadow-2xl transition transform">
+          <h3 class="text-lg font-bold"><%= currency[:name] %></h3>
+          <p class="text-sm text-gray-400"><%= currency[:code] %></p>
+
+          <p class="mt-2 text-2xl font-bold">
+            <% if currency[:code].include?("BTC") %>
+              $<%= number_with_precision(currency[:price], precision: 2, delimiter: ",") %>
+            <% else %>
+              R$ <%= number_with_precision(currency[:price], precision: 4, delimiter: ",") %>
+            <% end %>
+          </p>
+
+          <p class="mt-1 text-sm <%= currency[:change24h] >= 0 ? 'text-green-400' : 'text-red-400' %>">
+            <%= currency[:change24h].round(2) %>%
+          </p>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Market Overview -->
+    <div class="mt-12 p-6 rounded-xl bg-white/10 backdrop-blur-xl max-w-4xl mx-auto">
+      <h3 class="text-xl font-bold mb-4">Market Overview</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <% @currencies.each do |currency| %>
+          <div class="text-center">
+            <p class="text-2xl font-bold <%= currency[:change24h] >= 0 ? 'text-green-400' : 'text-red-400' %>">
+              <% if currency[:code].include?("BTC") %>
+                $<%= number_with_precision(currency[:price], precision: 2, delimiter: ",") %>
+              <% else %>
+                R$ <%= number_with_precision(currency[:price], precision: 4, delimiter: ",") %>
+              <% end %>
+            </p>
+            <p class="text-sm text-gray-300"><%= currency[:name] %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </main>
+</div>
