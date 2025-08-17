@@ -59,3 +59,5 @@ end
 gem "chartkick", "~> 5.2"
 
 gem "rack-cors"
+
+gem "tailwindcss-rails", "~> 4.3"
