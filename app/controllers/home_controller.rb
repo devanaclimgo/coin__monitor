@@ -3,27 +3,27 @@ require "json"
 
 class HomeController < ApplicationController
   CURRENCIES = [
-    { code: "USD-BRL" },
-    { code: "EUR-BRL" },
-    { code: "BTC-BRL" }
+    { code: "USD-BRL", color: "text-green-400" },
+    { code: "EUR-BRL", color: "text-blue-400" },
+    { code: "BTC-BRL", color: "text-yellow-400" }
   ]
 
   def index
-    @chart_data = []
-
-    CURRENCIES.each do |currency|
+    @currencies = CURRENCIES.map do |currency|
       url = URI("https://economia.awesomeapi.com.br/json/daily/#{currency[:code]}/15")
       response = Net::HTTP.get(url)
       data = JSON.parse(response)
 
-      @chart_data << {
-        name: currency[:code],
-        data: data.each_with_object({}) do |entry, hash|
-          date = Time.at(entry["timestamp"].to_i).strftime("%d/%m/%y")
-          hash[date] = entry["high"].to_f
-        end
+      sorted_data = data.sort_by { |entry| entry["timestamp"].to_i }
+      latest = sorted_data.last
+
+      {
+        code: currency[:code],
+        name: currency[:code].gsub("-", " to "),
+        price: latest["high"].to_f,
+        change24h: latest["pctChange"].to_f,
+        color: currency[:color]
       }
     end
-    puts @chart_data.inspect
   end
 end
