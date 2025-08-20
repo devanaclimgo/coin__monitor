@@ -10,5 +10,5 @@ theme:
 plugins: []
 
 # Tell Tailwind where the input file is and where to output the built CSS
-input: app/assets/stylesheets/application.css
+input: app/assets/tailwind/application.css
 output: app/assets/builds/application.css
