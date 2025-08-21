@@ -8,6 +8,19 @@ body {
   padding: 0;
 }
 
+.isolate {
+  isolation: isolate;
+}
+
+.will-change-transform {
+  will-change: transform;
+}
+
+.hover\:z-10:hover {
+  z-index: 10;
+  position: relative;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
