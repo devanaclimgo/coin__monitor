@@ -2,14 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reset default browser spacing to remove white borders */
 html,
 body {
   margin: 0;
   padding: 0;
 }
 
-/* Custom styles for testing */
 .min-h-screen {
   min-height: 100vh;
 }
