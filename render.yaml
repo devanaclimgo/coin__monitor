@@ -22,7 +22,7 @@ services:
           name: coin-monitor-db
           property: connectionString
       - key: SECRET_KEY_BASE
-        generateValue: true
+        value: 7c28b991c1cdd601d4df5e973fba4d50ba0b20a056982c63ea068d55f76c8ed9d2fa54001228e114e0af3f4bba32db1d16be68835753c36993d6a08b1b2e8886
 
 databases:
   - name: coin-monitor-db
