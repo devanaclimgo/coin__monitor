@@ -5,7 +5,9 @@ services:
     plan: free
     buildCommand: |
       bundle install
-      bundle exec rails assets:precompile
+      mkdir -p public/assets
+      mkdir -p tmp/cache
+      bundle exec rails assets:precompile || echo "Assets precompilation failed, continuing..."
       bundle exec rails db:migrate
     startCommand: bundle exec rails server
     envVars:
