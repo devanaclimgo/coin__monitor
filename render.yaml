@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: coin-monitor
+    env: ruby
+    plan: free
+    buildCommand: |
+      bundle install
+      bundle exec rails assets:precompile
+    startCommand: bundle exec rails server
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_SERVE_STATIC_FILES
+        value: true
+      - key: RAILS_LOG_TO_STDOUT
+        value: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: coin-monitor-db
+          property: connectionString
+
+databases:
+  - name: coin-monitor-db
+    databaseName: coin_monitor_production
+    user: coin_monitor_user
+    plan: free

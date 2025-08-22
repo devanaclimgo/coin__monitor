@@ -229,10 +229,28 @@ content:
    heroku run rails db:migrate
    ```
 
+### Render Deployment (Recommended)
+
+1. **Connect your repository**
+
+   - Fork or push your code to GitHub
+   - Connect your repository to Render
+
+2. **Deploy automatically**
+
+   - Render will detect the `render.yaml` file
+   - Automatically create the web service and database
+   - Deploy your application
+
+3. **Environment setup**
+   - All environment variables are configured in `render.yaml`
+   - Database is automatically provisioned
+   - SSL certificate is automatically configured
+
 ### Alternative Deployment Options
 
 - **Railway**: Modern Rails deployment platform
-- **Render**: Easy deployment with automatic builds
+- **Heroku**: Traditional Rails hosting platform
 - **DigitalOcean App Platform**: Scalable cloud deployment
 
 ## 🧪 Testing
