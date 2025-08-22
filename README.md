@@ -27,7 +27,7 @@ A real-time currency monitoring web application built with Ruby on Rails, featur
 ### Frontend
 
 - **Tailwind CSS**: Utility-first CSS framework for rapid UI development
-- **Chart.js**: Interactive JavaScript charts for data visualization
+- **Chart.js**: Interactive JavaScript charts for data visualization (CDN)
 - **Vanilla JavaScript**: Custom animations and interactions
 - **HTML5/ERB**: Semantic markup with Rails templating
 
@@ -38,7 +38,6 @@ A real-time currency monitoring web application built with Ruby on Rails, featur
 ### Development Tools
 
 - **Bundler**: Ruby dependency management
-- **Yarn**: JavaScript package management
 - **Git**: Version control system
 
 ## 📊 API Integration
@@ -78,7 +77,6 @@ https://economia.awesomeapi.com.br/json/daily/{CURRENCY_PAIR}/15
 
 - Ruby 3.0 or higher
 - Rails 7.0 or higher
-- Node.js 16+ and Yarn
 - Git
 
 ### Step-by-Step Setup
@@ -96,13 +94,7 @@ https://economia.awesomeapi.com.br/json/daily/{CURRENCY_PAIR}/15
    bundle install
    ```
 
-3. **Install JavaScript dependencies**
-
-   ```bash
-   yarn install
-   ```
-
-4. **Setup database**
+3. **Setup database**
 
    ```bash
    rails db:create
@@ -110,13 +102,13 @@ https://economia.awesomeapi.com.br/json/daily/{CURRENCY_PAIR}/15
    rails db:seed
    ```
 
-5. **Start the development server**
+4. **Start the development server**
 
    ```bash
    bin/dev
    ```
 
-6. **Visit the application**
+5. **Visit the application**
    ```
    http://localhost:3000
    ```
@@ -143,7 +135,6 @@ coin_monitor/
 │   ├── routes.rb                        # Application routing
 │   └── database.yml                     # Database configuration
 ├── Gemfile                              # Ruby dependencies
-├── package.json                         # JavaScript dependencies
 └── README.md                           # This file
 ```
 
@@ -223,7 +214,6 @@ content:
 
    ```bash
    heroku buildpacks:add heroku/ruby
-   heroku buildpacks:add heroku/nodejs
    ```
 
 3. **Configure environment**
