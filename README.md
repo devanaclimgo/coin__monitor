@@ -1,134 +1,305 @@
-# 📈 Coin Monitor: Real-Time Currency Tracking (Rails App)
+# 🌍 Coin Monitor
 
-![Ruby](https://img.shields.io/badge/Ruby-CC342D?style=for-the-badge&logo=ruby&logoColor=white) ![Rails](https://img.shields.io/badge/rails-%23CC0000.svg?style=for-the-badge&logo=ruby-on-rails&logoColor=white) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)	![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+A real-time currency monitoring web application built with Ruby on Rails, featuring live exchange rates, interactive charts, and a beautiful glassmorphism UI design.
 
-## Ruby on Rails | API Integration | Data Visualization
+![Coin Monitor](https://img.shields.io/badge/Ruby-3.0+-red.svg)
+![Rails](https://img.shields.io/badge/Rails-7.0+-red.svg)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0+-blue.svg)
+![Chart.js](https://img.shields.io/badge/Chart.js-4.0+-yellow.svg)
 
-A containerized Rails application that tracks USD, EUR, and BTC exchange rates against BRL with beautiful charts - no Ruby installation needed!
+## ✨ Features
 
-### 💡 The Idea
+- **Real-time Currency Data**: Live exchange rates for USD-BRL, EUR-BRL, and BTC-BRL
+- **Interactive Line Charts**: Beautiful 15-day price trend visualization using Chart.js
+- **Responsive Design**: Modern glassmorphism UI that works on all devices
+- **Live Updates**: Currency prices and 24h change percentages
+- **Market Overview**: Comprehensive market summary with visual indicators
 
-I wanted a simple way to monitor how key currencies (USD, EUR, BTC) fluctuate against the Brazilian Real, with:
-- Clear historical data visualization
-- Automatic daily updates
-- Easy-to-read charts
+## 🛠️ Tech Stack
 
-### ✨ Features
-- Real-time currency tracking (USD, EUR, BTC to BRL)
-- 30-day historical data visualization
-- Automatic daily updates
-- Responsive design with interactive charts
-- Dockerized for easy deployment
-- Hybrid Hotwire + React architecture
+### Backend
 
-### 🚀 Project Status
-Current implementation:
-- ✅ Backend API integration with AwesomeAPI
-- ✅ Basic data visualization with Chart.js
-- ✅ Docker configuration
+- **Ruby on Rails 7.0+**: Modern web framework for robust backend development
+- **Ruby 3.0+**: High-level programming language
+- **SQLite**: Lightweight database for development
+- **Puma**: High-performance web server
 
-Planned improvements:
-- Modern frontend redesign using React
-- Hybrid Hotwire + React implementation
-- Enhanced chart interactivity
-- User preferences (custom time ranges, currency selection)
+### Frontend
 
-### 🛠️ How I Built It
+- **Tailwind CSS**: Utility-first CSS framework for rapid UI development
+- **Chart.js**: Interactive JavaScript charts for data visualization
+- **Vanilla JavaScript**: Custom animations and interactions
+- **HTML5/ERB**: Semantic markup with Rails templating
 
-Backend:
-- Ruby on Rails 7
-- PostgreSQL
-- Net::HTTP for API requests
+### APIs & External Services
 
-Frontend:
-- React (via jsbundling-rails)
-- TypeScript
-- Hotwire (Turbo + Stimulus)
-- Chart.js
+- **AwesomeAPI**: Brazilian economy API for real-time currency data
 
-Infrastructure:
-- Docker
-- Docker Compose
+### Development Tools
 
-### 🏗️ Architecture
+- **Bundler**: Ruby dependency management
+- **Yarn**: JavaScript package management
+- **Git**: Version control system
 
-The app uses a hybrid approach:
-- Rails serves as the API backend and handles initial page rendering
-- React components are embedded for interactive UI elements
-- Hotwire (Turbo + Stimulus) handles the progressive enhancement
+## 📊 API Integration
 
--> Key Components
+### Currency Data Source
 
-💰 Currency Configuration
-```ruby
-CURRENCIES = [
-  { code: 'USD-BRL' },  # US Dollar
-  { code: 'EUR-BRL' },  # Euro
-  { code: 'BTC-BRL' }   # Bitcoin
-]
+The application integrates with the **AwesomeAPI** Brazilian economy service:
+
+# API Endpoint
+
+https://economia.awesomeapi.com.br/json/daily/{CURRENCY_PAIR}/15
+
+# Supported Currency Pairs
+
+- USD-BRL (US Dollar to Brazilian Real)
+- EUR-BRL (Euro to Brazilian Real)
+- BTC-BRL (Bitcoin to Brazilian Real)
+
+````
+
+### Data Structure
+
+```json
+{
+  "symbol": "USD-BRL",
+  "name": "USD to BRL",
+  "price": 5.2345,
+  "change24h": 0.85,
+  "sparklineData": [5.12, 5.15, 5.18, ...],
+  "color": "#22c55e"
+}
+````
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+
+- Ruby 3.0 or higher
+- Rails 7.0 or higher
+- Node.js 16+ and Yarn
+- Git
+
+### Step-by-Step Setup
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/devanaclimgo/coin-monitor.git
+   cd coin-monitor
+   ```
+
+2. **Install Ruby dependencies**
+
+   ```bash
+   bundle install
+   ```
+
+3. **Install JavaScript dependencies**
+
+   ```bash
+   yarn install
+   ```
+
+4. **Setup database**
+
+   ```bash
+   rails db:create
+   rails db:migrate
+   rails db:seed
+   ```
+
+5. **Start the development server**
+
+   ```bash
+   bin/dev
+   ```
+
+6. **Visit the application**
+   ```
+   http://localhost:3000
+   ```
+
+## 🏗️ Project Structure
+
 ```
-- Easy to add new currencies by extending the array
-
-📊 Data Fetching Logic
-```ruby
-url = URI("https://economia.awesomeapi.com.br/json/daily/#{currency[:code]}/30")
-response = Net::HTTP.get(url)
-data = JSON.parse(response)
+coin_monitor/
+├── app/
+│   ├── controllers/
+│   │   ├── api/currency_controller.rb    # API endpoint for chart data
+│   │   └── home_controller.rb            # Main page controller
+│   ├── views/
+│   │   └── home/
+│   │       └── index.html.erb           # Main dashboard view
+│   ├── assets/
+│   │   ├── images/
+│   │   │   ├── brazil-flag-icon.svg     # Brazilian flag icon
+│   │   │   └── uk-flag-icon.svg         # UK flag icon
+│   │   └── stylesheets/
+│   │       └── application.css          # Custom styles + Tailwind
+│   └── models/
+├── config/
+│   ├── routes.rb                        # Application routing
+│   └── database.yml                     # Database configuration
+├── Gemfile                              # Ruby dependencies
+├── package.json                         # JavaScript dependencies
+└── README.md                           # This file
 ```
-- Gets 30 days of historical data
-- Handles JSON parsing automatically
 
-🗓️ Date Formatting
-```ruby
-Time.at(entry['timestamp'].to_i).strftime("%d/%m/%y")
-```
-- Converts UNIX timestamps to readable dates
+## 🎨 UI/UX Features
 
-### 🐳 Docker Deployment
-1. Clone the repository:
+### Design System
+
+- **Glassmorphism**: Modern glass-like UI elements with backdrop blur
+- **Dark Theme**: Elegant dark color scheme with gradient backgrounds
+- **Responsive Grid**: Adaptive layout for desktop, tablet, and mobile
+- **Smooth Animations**: CSS transitions and hover effects
+
+### Interactive Elements
+
+- **Currency Cards**: Hover effects with scale and shadow animations
+- **Line Charts**: Interactive tooltips and responsive design
+- **Real-time Indicators**: Color-coded price changes (green/red)
+
+## 📱 Responsive Design
+
+The application is fully responsive with breakpoints:
+
+- **Mobile**: < 768px (single column layout)
+- **Tablet**: 768px - 1024px (two column layout)
+- **Desktop**: > 1024px (three column layout)
+
+## 📈 Chart Features
+
+### Chart.js Implementation
+
+- **Line Charts**: Smooth curved lines with tension
+- **Interactive Tooltips**: Hover information with price details
+- **Responsive Design**: Adapts to container size
+- **Custom Styling**: Dark theme with glassmorphism effects
+
+### Data Visualization
+
+- 15-day historical price trends
+- Color-coded currency lines
+- Real-time data updates
+- Smooth animations and transitions
+
+## 🔧 Configuration
+
+### Environment Variables
+
 ```bash
-git clone https://github.com/devanaclimgo/coin_monitor_ts.git
-cd coin_monitor_ts
-```
-2. Build and start the containers:
-```bash
-docker-compose build
-docker-compose up
-```
-3. Access the app at ```http://localhost:3000```
+# Database configuration
+RAILS_ENV=development
+DATABASE_URL=sqlite3:db/development.sqlite3
 
-## 🖥️ Development Setup
-### Prerequisites:
-- Ruby 3.x
-- PostgreSQL
-- Node.js 16+
-- Yarn
+# Asset compilation
+RAILS_SERVE_STATIC_FILES=true
+```
 
-### Installation
-1. Install dependencies:
-```bash
-bundle install
-yarn install
+### Tailwind Configuration
+
+```yaml
+# config/tailwind.config.yml
+content:
+  - app/views/**/*.erb
+  - app/helpers/**/*.rb
+  - app/javascript/**/*.js
 ```
-2. Set up the database:
+
+## 🚀 Deployment
+
+### Heroku Deployment
+
+1. **Create Heroku app**
+
+   ```bash
+   heroku create your-app-name
+   ```
+
+2. **Set buildpacks**
+
+   ```bash
+   heroku buildpacks:add heroku/ruby
+   heroku buildpacks:add heroku/nodejs
+   ```
+
+3. **Configure environment**
+
+   ```bash
+   heroku config:set RAILS_ENV=production
+   heroku config:set RAILS_SERVE_STATIC_FILES=true
+   ```
+
+4. **Deploy**
+   ```bash
+   git push heroku main
+   heroku run rails db:migrate
+   ```
+
+### Alternative Deployment Options
+
+- **Railway**: Modern Rails deployment platform
+- **Render**: Easy deployment with automatic builds
+- **DigitalOcean App Platform**: Scalable cloud deployment
+
+## 🧪 Testing
+
+### Running Tests
+
 ```bash
-rails db:create db:migrate
+# Run all tests
+rails test
+
+# Run specific test files
+rails test test/controllers/home_controller_test.rb
+rails test test/models/post_test.rb
 ```
-3. Start the development servers:
-```bash
-bin/dev
-```
+
+### Test Coverage
+
+- Controller tests for API endpoints
+- Model tests for data validation
+- System tests for user interactions
 
 ## 🤝 Contributing
-1. Fork the project
-2. Create your feature branch (```git checkout -b feature/amazing-feature```)
-3. Commit your changes (```git commit -m 'Add some amazing feature'```)
-4. Push to the branch (```git push origin feature/amazing-feature```)
-5. Open a pull request
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👩‍💻 Author
+
+**Ana Gomes**
+
+- GitHub: [@devanaclimgo](https://github.com/devanaclimgo)
+- LinkedIn: [Ana Gomes](https://www.linkedin.com/in/ana-clara-gomes-48b83b224/)
 
 ## 🙏 Acknowledgments
-- AwesomeAPI for the free currency data
-- Chart.js for data visualization
-- V0.dev for design inspiration
+
+- **AwesomeAPI** for providing reliable currency data
+- **Chart.js** for powerful charting capabilities
+- **Tailwind CSS** for the utility-first CSS framework
+- **Rails community** for the excellent documentation and support
+
+## 📞 Support
+
+If you have any questions or need help with the project:
+
+1. Check the [Issues](https://github.com/devanaclimgo/coin-monitor/issues) page
+2. Create a new issue with detailed description
+3. Contact me directly via GitHub
+
+---
+
+⭐ **Star this repository if you found it helpful!**
 
 ###### Built with ❤️ by Ana - 2025
