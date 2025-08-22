@@ -47,5 +47,118 @@
         <% end %>
       </div>
     </div>
+
+    <div class="mt-12 p-6 rounded-xl bg-white/10 backdrop-blur-xl max-w-6xl mx-auto isolate">
+      <h3 class="text-xl font-bold mb-6 text-center">Price Trends (Last 15 Days)</h3>
+      <div class="relative h-80">
+        <canvas id="currencyChart" class="w-full h-full"></canvas>
+      </div>
+    </div>
   </main>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('currencyChart').getContext('2d');
+
+    // Get currency data from the server
+    fetch('/api/currency')
+      .then(response => response.json())
+      .then(data => {
+        const datasets = data.map(currency => ({
+          label: currency.name,
+          data: currency.sparklineData,
+          borderColor: currency.color,
+          backgroundColor: currency.color + '20',
+          borderWidth: 2,
+          fill: false,
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: currency.color,
+          pointHoverBorderColor: '#ffffff',
+          pointHoverBorderWidth: 2
+        }));
+
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: Array.from({
+              length: 15
+            }, (_, i) => `Day ${i + 1}`),
+            datasets: datasets
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                labels: {
+                  color: '#ffffff',
+                  font: {
+                    size: 14,
+                    weight: 'bold'
+                  },
+                  usePointStyle: true,
+                  pointStyle: 'circle'
+                }
+              },
+              tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                titleColor: '#ffffff',
+                bodyColor: '#ffffff',
+                borderColor: 'rgba(255, 255, 255, 0.2)',
+                borderWidth: 1,
+                cornerRadius: 8,
+                displayColors: true
+              }
+            },
+            scales: {
+              x: {
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.1)',
+                  drawBorder: false
+                },
+                ticks: {
+                  color: '#9ca3af',
+                  font: {
+                    size: 12
+                  }
+                }
+              },
+              y: {
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.1)',
+                  drawBorder: false
+                },
+                ticks: {
+                  color: '#9ca3af',
+                  font: {
+                    size: 12
+                  },
+                  callback: function(value) {
+                    return 'R$ ' + value.toFixed(2);
+                  }
+                }
+              }
+            },
+            interaction: {
+              intersect: false,
+              mode: 'index'
+            },
+            elements: {
+              point: {
+                hoverRadius: 8
+              }
+            }
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching chart data:', error);
+        document.getElementById('currencyChart').parentElement.innerHTML =
+          '<div class="flex items-center justify-center h-full text-gray-400">Failed to load chart data</div>';
+      });
+  });
+</script>
