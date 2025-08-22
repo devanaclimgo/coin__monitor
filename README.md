@@ -4,7 +4,6 @@ A real-time currency monitoring web application built with Ruby on Rails, featur
 
 ![Coin Monitor](https://img.shields.io/badge/Ruby-3.0+-red.svg)
 ![Rails](https://img.shields.io/badge/Rails-7.0+-red.svg)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0+-blue.svg)
 ![Chart.js](https://img.shields.io/badge/Chart.js-4.0+-yellow.svg)
 
 ## ✨ Features
@@ -26,7 +25,7 @@ A real-time currency monitoring web application built with Ruby on Rails, featur
 
 ### Frontend
 
-- **Tailwind CSS**: Utility-first CSS framework for rapid UI development
+- **Custom CSS**: Hand-crafted stylesheets with modern design
 - **Chart.js**: Interactive JavaScript charts for data visualization (CDN)
 - **Vanilla JavaScript**: Custom animations and interactions
 - **HTML5/ERB**: Semantic markup with Rails templating
@@ -188,16 +187,6 @@ DATABASE_URL=sqlite3:db/development.sqlite3
 
 # Asset compilation
 RAILS_SERVE_STATIC_FILES=true
-```
-
-### Tailwind Configuration
-
-```yaml
-# config/tailwind.config.yml
-content:
-  - app/views/**/*.erb
-  - app/helpers/**/*.rb
-  - app/javascript/**/*.js
 ```
 
 ## 🚀 Deployment
