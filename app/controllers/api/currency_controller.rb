@@ -74,5 +74,5 @@ class Api::CurrencyController < ApplicationController
     end
 
     render json: chart_data
-  end
+    end
 end
