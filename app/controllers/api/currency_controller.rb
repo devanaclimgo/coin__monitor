@@ -1,3 +1,6 @@
+require "net/http"
+require "json"
+
 class Api::CurrencyController < ApplicationController
   CURRENCIES = [
     { code: "USD-BRL", color: "#22c55e" },
