@@ -5,11 +5,9 @@ services:
     plan: free
     buildCommand: |
       bundle install
-      mkdir -p public/assets
-      mkdir -p tmp/cache
-      bundle exec rails assets:precompile || echo "Assets precompilation failed, continuing..."
+      bundle exec rails assets:precompile
       bundle exec rails db:migrate
-    startCommand: bundle exec rails server
+    startCommand: bundle exec puma -C config/puma.rb
     envVars:
       - key: RAILS_ENV
         value: production
@@ -22,6 +20,7 @@ services:
           name: coin-monitor-db
           property: connectionString
       - key: RAILS_MASTER_KEY
+        sync: false
 
 databases:
   - name: coin-monitor-db
