@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   root "home#index"
 
-  get "/api/currency", to: "home#currency_data"
+  namespace :api do
+    resources :currency, only: [ :index ]
+  end
 end
