@@ -9,29 +9,32 @@ class HomeController < ApplicationController
   ].freeze
 
   def index
-    @currencies = fetch_currency_data
+    @currencies = CURRENCIES.map do |currency|
+      fetch_currency_data(currency)
+    end.compact
   end
 
   private
 
-  def fetch_currency_data
-    CURRENCIES.map do |currency|
-      url = URI("https://economia.awesomeapi.com.br/json/daily/#{currency[:code]}/15")
+  def fetch_currency_data(currency)
+    url = URI("https://economia.awesomeapi.com.br/json/daily/#{currency[:code]}/15")
+
+    begin
       response = Net::HTTP.get(url)
       data = JSON.parse(response)
 
-      sorted_data = data.sort_by { |entry| entry["timestamp"].to_i }
-      prices = sorted_data.map { |entry| entry["high"].to_f }
-      latest = sorted_data.last
+      latest = data.max_by { |entry| entry["timestamp"].to_i }
 
       {
         code: currency[:code],
-        name: currency[:code].gsub("-", " to "),
+        name: currency[:code].tr("-", " to "),
         price: latest["high"].to_f,
         change24h: latest["pctChange"].to_f,
-        sparklineData: prices,
         color: currency[:color]
       }
+    rescue StandardError => e
+      Rails.logger.error "Erro ao buscar #{currency[:code]}: #{e.message}"
+      nil
     end
   end
 end

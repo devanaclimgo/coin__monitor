@@ -9,25 +9,33 @@ class Api::CurrencyController < ApplicationController
   ]
 
   def index
+    require "net/http"
+    require "json"
+
     chart_data = CURRENCIES.map do |currency|
-      url = URI("https://economia.awesomeapi.com.br/json/daily/#{currency[:code]}/15")
-      response = Net::HTTP.get(url)
-      data = JSON.parse(response)
+      begin
+        url = URI("https://economia.awesomeapi.com.br/json/daily/#{currency[:code]}/15")
+        response = Net::HTTP.get(url)
+        data = JSON.parse(response)
 
-      sorted_data = data.sort_by { |entry| entry["timestamp"].to_i }
+        sorted_data = data.sort_by { |entry| entry["timestamp"].to_i }
 
-      sparkline = sorted_data.map { |entry| entry["high"].to_f }
-      latest = sorted_data.last
+        sparkline = sorted_data.map { |entry| entry["high"].to_f }
+        latest = sorted_data.last
 
-      {
-        symbol: currency[:code],
-        name: currency[:code].gsub("-", " to "),
-        price: latest["high"].to_f,
-        change24h: latest["pctChange"].to_f,
-        sparklineData: sparkline,
-        color: currency[:color]
-      }
-    end
+        {
+          symbol: currency[:code],
+          name: currency[:code].gsub("-", " to "),
+          price: latest["high"].to_f,
+          change24h: latest["pctChange"].to_f,
+          sparklineData: sparkline,
+          color: currency[:color]
+        }
+      rescue StandardError => e
+        Rails.logger.error "Error fetching #{currency[:code]}: #{e.message}"
+        nil
+      end
+    end.compact
 
     render json: chart_data
   end

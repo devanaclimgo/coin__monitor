@@ -2,6 +2,6 @@ Rails.application.routes.draw do
   root "home#index"
 
   namespace :api do
-    resources :currency, only: [ :index ]
+    get "currency", to: "currency#index"
   end
 end
