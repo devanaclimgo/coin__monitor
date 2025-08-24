@@ -3,7 +3,7 @@
 A real-time currency monitoring web application built with Ruby on Rails, featuring live exchange rates, interactive charts, and a beautiful glassmorphism UI design.
 
 ![Coin Monitor](https://img.shields.io/badge/Ruby-3.0+-red.svg)
-![Rails](https://img.shields.io/badge/Rails-7.0+-red.svg)
+![Rails](https://img.shields.io/badge/Rails-8.0+-red.svg)
 ![Chart.js](https://img.shields.io/badge/Chart.js-4.0+-yellow.svg)
 
 ## ✨ Features
@@ -13,15 +13,20 @@ A real-time currency monitoring web application built with Ruby on Rails, featur
 - **Responsive Design**: Modern glassmorphism UI that works on all devices
 - **Live Updates**: Currency prices and 24h change percentages
 - **Market Overview**: Comprehensive market summary with visual indicators
+- **API Health Monitoring**: Built-in health checks and external API testing
+- **Caching System**: Intelligent caching for improved performance
 
 ## 🛠️ Tech Stack
 
 ### Backend
 
-- **Ruby on Rails 7.0+**: Modern web framework for robust backend development
+- **Ruby on Rails 8.0+**: Modern web framework for robust backend development
 - **Ruby 3.0+**: High-level programming language
 - **SQLite**: Lightweight database for development
+- **PostgreSQL**: Production database
 - **Puma**: High-performance web server
+- **Solid Cache**: Database-backed caching system
+- **Solid Queue**: Background job processing
 
 ### Frontend
 
@@ -38,6 +43,8 @@ A real-time currency monitoring web application built with Ruby on Rails, featur
 
 - **Bundler**: Ruby dependency management
 - **Git**: Version control system
+- **Kamal**: Docker-based deployment
+- **RuboCop**: Code linting and formatting
 
 ## 📊 API Integration
 
@@ -122,18 +129,20 @@ coin_monitor/
 │   │   └── home_controller.rb            # Main page controller
 │   ├── views/
 │   │   └── home/
-│   │       └── index.html.erb           # Main dashboard view
+│   │       ├── index.html.erb           # Main dashboard view
+│   │       └── debug.html.erb           # Debug and health monitoring
 │   ├── assets/
 │   │   ├── images/
-│   │   │   ├── brazil-flag-icon.svg     # Brazilian flag icon
-│   │   │   └── uk-flag-icon.svg         # UK flag icon
+│   │   │   └── apple-touch-icon.png     # PWA icon
 │   │   └── stylesheets/
-│   │       └── application.css          # Custom styles + Tailwind
+│   │       └── application.css          # Custom styles
 │   └── models/
 ├── config/
 │   ├── routes.rb                        # Application routing
 │   └── database.yml                     # Database configuration
 ├── Gemfile                              # Ruby dependencies
+├── render.yaml                          # Render deployment configuration
+├── Dockerfile                           # Docker configuration
 └── README.md                           # This file
 ```
 
@@ -145,6 +154,7 @@ coin_monitor/
 - **Dark Theme**: Elegant dark color scheme with gradient backgrounds
 - **Responsive Grid**: Adaptive layout for desktop, tablet, and mobile
 - **Smooth Animations**: CSS transitions and hover effects
+- **Custom CSS**: Hand-crafted styles without external frameworks
 
 ### Interactive Elements
 
@@ -191,34 +201,9 @@ RAILS_SERVE_STATIC_FILES=true
 
 ## 🚀 Deployment
 
-### Heroku Deployment
-
-1. **Create Heroku app**
-
-   ```bash
-   heroku create your-app-name
-   ```
-
-2. **Set buildpacks**
-
-   ```bash
-   heroku buildpacks:add heroku/ruby
-   ```
-
-3. **Configure environment**
-
-   ```bash
-   heroku config:set RAILS_ENV=production
-   heroku config:set RAILS_SERVE_STATIC_FILES=true
-   ```
-
-4. **Deploy**
-   ```bash
-   git push heroku main
-   heroku run rails db:migrate
-   ```
-
 ### Render Deployment (Recommended)
+
+This application is deployed on **Render** - a modern, developer-friendly platform that offers seamless Rails deployment.
 
 1. **Connect your repository**
 
@@ -239,10 +224,10 @@ RAILS_SERVE_STATIC_FILES=true
 ### Alternative Deployment Options
 
 - **Railway**: Modern Rails deployment platform
-- **Heroku**: Traditional Rails hosting platform
+- **Heroku**: Traditional Rails hosting platform (legacy)
 - **DigitalOcean App Platform**: Scalable cloud deployment
 
-## 🧪 Testing
+## 🧪 Testing & Debugging
 
 ### Running Tests
 
@@ -252,14 +237,14 @@ rails test
 
 # Run specific test files
 rails test test/controllers/home_controller_test.rb
-rails test test/models/post_test.rb
 ```
 
-### Test Coverage
+### Debug Features
 
-- Controller tests for API endpoints
-- Model tests for data validation
-- System tests for user interactions
+- **Health Check Endpoint**: `/health` for application status
+- **API Testing**: `/test_external_api` for external API diagnostics
+- **Debug Page**: `/debug` for comprehensive system information
+- **Caching System**: Intelligent data caching with fallback mechanisms
 
 ## 🤝 Contributing
 
@@ -284,8 +269,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **AwesomeAPI** for providing reliable currency data
 - **Chart.js** for powerful charting capabilities
-- **Tailwind CSS** for the utility-first CSS framework
 - **Rails community** for the excellent documentation and support
+- **Render** for seamless deployment and hosting
 
 ## 📞 Support
 
