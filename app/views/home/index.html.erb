@@ -67,9 +67,26 @@
     const ctx = document.getElementById('currencyChart').getContext('2d');
 
     // Get currency data from the server
-    fetch('/api/currency')
-      .then(response => response.json())
+    console.log('Fetching currency data...');
+    fetch('/api/currency', {
+      method: 'GET',
+      headers: {
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      }
+    })
+      .then(response => {
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+        return response.json();
+      })
       .then(data => {
+        console.log('Received data:', data);
+        
+        if (!data || data.length === 0) {
+          throw new Error('No data received from API');
+        }
+
         const datasets = data.map(currency => ({
           label: currency.name,
           data: currency.sparklineData,
@@ -84,6 +101,8 @@
           pointHoverBorderColor: '#ffffff',
           pointHoverBorderWidth: 2
         }));
+
+        console.log('Created datasets:', datasets);
 
         new Chart(ctx, {
           type: 'line',
@@ -158,11 +177,13 @@
             }
           }
         });
+        
+        console.log('Chart created successfully');
       })
       .catch(error => {
         console.error('Error fetching chart data:', error);
         document.getElementById('currencyChart').parentElement.innerHTML =
-          '<div class="flex items-center justify-center h-full text-gray-400">Failed to load chart data</div>';
+          '<div class="flex items-center justify-center h-full text-gray-400">Failed to load chart data: ' + error.message + '</div>';
       });
   });
 </script>
