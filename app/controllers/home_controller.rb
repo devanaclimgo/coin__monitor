@@ -74,15 +74,28 @@ class HomeController < ApplicationController
     url = URI("https://economia.awesomeapi.com.br/json/daily/#{currency[:code]}/15")
 
     begin
+      Rails.logger.info "Fetching data for #{currency[:code]} from #{url}"
+      
       # Add timeout and better error handling
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
-      http.open_timeout = 10
-      http.read_timeout = 10
+      http.open_timeout = 15  # Increased timeout
+      http.read_timeout = 15  # Increased timeout
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE  # Temporarily disable SSL verification for debugging
 
       request = Net::HTTP::Get.new(url)
       request["User-Agent"] = "CoinMonitor/1.0 (https://coin-monitor.onrender.com)"
+      request["Accept"] = "application/json"
+      request["Accept-Encoding"] = "gzip, deflate"
+      
+      Rails.logger.info "Making request to #{url} with User-Agent: #{request['User-Agent']}"
+      
+      start_time = Time.current
       response = http.request(request)
+      end_time = Time.current
+      
+      Rails.logger.info "Response received in #{(end_time - start_time).round(2)}s"
+      Rails.logger.info "Response code: #{response.code}"
 
       if response.code != "200"
         Rails.logger.error "API returned #{response.code} for #{currency[:code]}: #{response.body}"
@@ -91,20 +104,40 @@ class HomeController < ApplicationController
       end
 
       Rails.logger.info "Successfully fetched data for #{currency[:code]}: #{response.body.length} bytes"
+      Rails.logger.debug "Response body preview: #{response.body[0..200]}..."
 
       data = JSON.parse(response.body)
+      Rails.logger.info "Parsed JSON data for #{currency[:code]}: #{data.length} entries"
 
       latest = data.max_by { |entry| entry["timestamp"].to_i }
 
-      {
+      result = {
         code: currency[:code],
         name: currency[:code].tr("-", " to "),
         price: latest["high"].to_f,
         change24h: latest["pctChange"].to_f,
         color: currency[:color]
       }
+      
+      Rails.logger.info "Processed data for #{currency[:code]}: price=#{result[:price]}, change=#{result[:change24h]}%"
+      result
+      
+    rescue JSON::ParserError => e
+      Rails.logger.error "JSON parsing error for #{currency[:code]}: #{e.message}"
+      Rails.logger.error "Response body: #{response&.body}"
+      nil
+    rescue Net::OpenTimeout => e
+      Rails.logger.error "Open timeout for #{currency[:code]}: #{e.message}"
+      nil
+    rescue Net::ReadTimeout => e
+      Rails.logger.error "Read timeout for #{currency[:code]}: #{e.message}"
+      nil
+    rescue OpenSSL::SSL::SSLError => e
+      Rails.logger.error "SSL error for #{currency[:code]}: #{e.message}"
+      nil
     rescue StandardError => e
-      Rails.logger.error "Erro ao buscar #{currency[:code]}: #{e.message}"
+      Rails.logger.error "Error fetching #{currency[:code]}: #{e.message}"
+      Rails.logger.error "Error class: #{e.class}"
       Rails.logger.error "Backtrace: #{e.backtrace.first(5).join(', ')}"
       nil
     end
