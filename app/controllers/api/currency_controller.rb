@@ -89,10 +89,10 @@ class Api::CurrencyController < ApplicationController
         }
 
         Rails.logger.info "Processed data for #{currency[:code]}: price=#{result[:price]}, change=#{result[:change24h]}%"
-        
+
         # Cache individual currency data for 1 hour
         Rails.cache.write("currency_#{currency[:code]}", result, expires_in: 1.hour)
-        
+
         result
 
       rescue JSON::ParserError => e
@@ -188,10 +188,10 @@ class Api::CurrencyController < ApplicationController
         Rails.cache.delete("home_currency_#{currency[:code]}")
         Rails.cache.delete("home_currency_#{currency[:code]}_timestamp")
       end
-      
+
       Rails.cache.delete("currency_data")
       Rails.cache.delete("currency_data_timestamp")
-      
+
       render json: {
         success: true,
         message: "Cache cleared successfully",
@@ -211,7 +211,7 @@ class Api::CurrencyController < ApplicationController
   def cached_data_expired?
     timestamp = Rails.cache.read("currency_data_timestamp")
     return true if timestamp.nil?
-    
+
     # Consider data expired if it's older than 30 minutes
     (Time.current - timestamp) > 30.minutes
   end

@@ -176,11 +176,11 @@ class HomeController < ApplicationController
       }
 
       Rails.logger.info "Processed data for #{currency[:code]}: price=#{result[:price]}, change=#{result[:change24h]}%"
-      
+
       # Cache the result for 1 hour
       Rails.cache.write("home_currency_#{currency[:code]}", result, expires_in: 1.hour)
       Rails.cache.write("home_currency_#{currency[:code]}_timestamp", Time.current, expires_in: 1.hour)
-      
+
       result
 
     rescue JSON::ParserError => e
@@ -207,7 +207,7 @@ class HomeController < ApplicationController
   def home_cached_data_expired?(currency_code)
     timestamp = Rails.cache.read("home_currency_#{currency_code}_timestamp")
     return true if timestamp.nil?
-    
+
     # Consider data expired if it's older than 1 hour
     (Time.current - timestamp) > 1.hour
   end

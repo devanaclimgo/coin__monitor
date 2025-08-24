@@ -18,26 +18,26 @@
       <div class="bg-gray-800 p-6 rounded-lg">
         <h2 class="text-xl font-semibold mb-4">External API Test</h2>
         <% if @api_test[:success] %>
-          <div class="text-green-400">
-            <p><strong>Status:</strong> ✅ Success</p>
-            <p><strong>Response Code:</strong> <%= @api_test[:response_code] %></p>
-            <p><strong>Response Time:</strong> <%= @api_test[:response_time] %>s</p>
-            <p><strong>Response Length:</strong> <%= @api_test[:response_length] %> bytes</p>
-          </div>
+        <div class="text-green-400">
+          <p><strong>Status:</strong> ✅ Success</p>
+          <p><strong>Response Code:</strong> <%= @api_test[:response_code] %></p>
+          <p><strong>Response Time:</strong> <%= @api_test[:response_time] %>s</p>
+          <p><strong>Response Length:</strong> <%= @api_test[:response_length] %> bytes</p>
+        </div>
         <% elsif @api_test[:rate_limited] %>
-          <div class="text-yellow-400">
-            <p><strong>Status:</strong> ⚠️ Rate Limited</p>
-            <p><strong>Response Code:</strong> <%= @api_test[:response_code] %></p>
-            <p><strong>Response Time:</strong> <%= @api_test[:response_time] %>s</p>
-            <p><strong>Response Length:</strong> <%= @api_test[:response_length] %> bytes</p>
-            <p><strong>Note:</strong> API quota exceeded. Using cached data.</p>
-          </div>
+        <div class="text-yellow-400">
+          <p><strong>Status:</strong> ⚠️ Rate Limited</p>
+          <p><strong>Response Code:</strong> <%= @api_test[:response_code] %></p>
+          <p><strong>Response Time:</strong> <%= @api_test[:response_time] %>s</p>
+          <p><strong>Response Length:</strong> <%= @api_test[:response_length] %> bytes</p>
+          <p><strong>Note:</strong> API quota exceeded. Using cached data.</p>
+        </div>
         <% else %>
-          <div class="text-red-400">
-            <p><strong>Status:</strong> ❌ Failed</p>
-            <p><strong>Error:</strong> <%= @api_test[:error] %></p>
-            <p><strong>Error Class:</strong> <%= @api_test[:error_class] %></p>
-          </div>
+        <div class="text-red-400">
+          <p><strong>Status:</strong> ❌ Failed</p>
+          <p><strong>Error:</strong> <%= @api_test[:error] %></p>
+          <p><strong>Error Class:</strong> <%= @api_test[:error_class] %></p>
+        </div>
         <% end %>
       </div>
     </div>
@@ -52,23 +52,23 @@
           { code: "BTC-BRL", color: "text-yellow-400" }
         ] %>
         <% CURRENCIES.each do |currency| %>
-          <% cached_data = Rails.cache.read("currency_#{currency[:code]}") %>
-          <% cached_timestamp = Rails.cache.read("currency_#{currency[:code]}_timestamp") %>
-          <div class="text-center">
-            <p class="text-lg font-bold <%= currency[:color] %>"><%= currency[:code] %></p>
-            <% if cached_data %>
-              <p class="text-sm text-green-400">✅ Cached</p>
-              <p class="text-xs text-gray-400">
-                <% if cached_timestamp %>
-                  <%= time_ago_in_words(cached_timestamp) %> ago
-                <% else %>
-                  Unknown time
-                <% end %>
-              </p>
+        <% cached_data = Rails.cache.read("currency_#{currency[:code]}") %>
+        <% cached_timestamp = Rails.cache.read("currency_#{currency[:code]}_timestamp") %>
+        <div class="text-center">
+          <p class="text-lg font-bold <%= currency[:color] %>"><%= currency[:code] %></p>
+          <% if cached_data %>
+          <p class="text-sm text-green-400">✅ Cached</p>
+          <p class="text-xs text-gray-400">
+            <% if cached_timestamp %>
+            <%= time_ago_in_words(cached_timestamp) %> ago
             <% else %>
-              <p class="text-sm text-red-400">❌ Not cached</p>
+            Unknown time
             <% end %>
-          </div>
+          </p>
+          <% else %>
+          <p class="text-sm text-red-400">❌ Not cached</p>
+          <% end %>
+        </div>
         <% end %>
       </div>
     </div>
@@ -109,15 +109,15 @@
 </div>
 
 <script>
-function testAPI() {
-  const resultDiv = document.getElementById('manual-test-result');
-  resultDiv.innerHTML = '<p class="text-yellow-400">Testing...</p>';
+  function testAPI() {
+    const resultDiv = document.getElementById('manual-test-result');
+    resultDiv.innerHTML = '<p class="text-yellow-400">Testing...</p>';
 
-  fetch('/api/currency/test')
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        resultDiv.innerHTML = `
+    fetch('/api/currency/test')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          resultDiv.innerHTML = `
           <div class="text-green-400">
             <p><strong>✅ API Test Successful</strong></p>
             <p>Response Code: ${data.response_code}</p>
@@ -126,8 +126,8 @@ function testAPI() {
             <p>Environment: ${data.environment}</p>
           </div>
         `;
-      } else if (data.rate_limited) {
-        resultDiv.innerHTML = `
+        } else if (data.rate_limited) {
+          resultDiv.innerHTML = `
           <div class="text-yellow-400">
             <p><strong>⚠️ API Rate Limited</strong></p>
             <p>Response Code: ${data.response_code}</p>
@@ -137,8 +137,8 @@ function testAPI() {
             <p><strong>Note:</strong> API quota exceeded. Using cached data.</p>
           </div>
         `;
-      } else {
-        resultDiv.innerHTML = `
+        } else {
+          resultDiv.innerHTML = `
           <div class="text-red-400">
             <p><strong>❌ API Test Failed</strong></p>
             <p>Error: ${data.error}</p>
@@ -146,52 +146,54 @@ function testAPI() {
             <p>Environment: ${data.environment}</p>
           </div>
         `;
-      }
-    })
-    .catch(error => {
-      resultDiv.innerHTML = `
+        }
+      })
+      .catch(error => {
+        resultDiv.innerHTML = `
         <div class="text-red-400">
           <p><strong>❌ Request Failed</strong></p>
           <p>Error: ${error.message}</p>
         </div>
       `;
-    });
-}
+      });
+  }
 
-function clearCache() {
-  const resultDiv = document.getElementById('manual-test-result');
-  resultDiv.innerHTML = '<p class="text-yellow-400">Clearing cache...</p>';
+  function clearCache() {
+    const resultDiv = document.getElementById('manual-test-result');
+    resultDiv.innerHTML = '<p class="text-yellow-400">Clearing cache...</p>';
 
-  fetch('/api/currency/cache', { method: 'DELETE' })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        resultDiv.innerHTML = `
+    fetch('/api/currency/cache', {
+        method: 'DELETE'
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          resultDiv.innerHTML = `
           <div class="text-green-400">
             <p><strong>✅ Cache Cleared Successfully</strong></p>
             <p>Message: ${data.message}</p>
             <p>Timestamp: ${data.timestamp}</p>
           </div>
         `;
-        // Reload the page to refresh cache status
-        setTimeout(() => location.reload(), 2000);
-      } else {
-        resultDiv.innerHTML = `
+          // Reload the page to refresh cache status
+          setTimeout(() => location.reload(), 2000);
+        } else {
+          resultDiv.innerHTML = `
           <div class="text-red-400">
             <p><strong>❌ Cache Clear Failed</strong></p>
             <p>Error: ${data.error}</p>
             <p>Timestamp: ${data.timestamp}</p>
           </div>
         `;
-      }
-    })
-    .catch(error => {
-      resultDiv.innerHTML = `
+        }
+      })
+      .catch(error => {
+        resultDiv.innerHTML = `
         <div class="text-red-400">
           <p><strong>❌ Request Failed</strong></p>
           <p>Error: ${error.message}</p>
         </div>
       `;
-    });
-}
+      });
+  }
 </script>
