@@ -69,12 +69,12 @@
     // Get currency data from the server
     console.log('Fetching currency data...');
     fetch('/api/currency', {
-      method: 'GET',
-      headers: {
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache'
-      }
-    })
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      })
       .then(response => {
         console.log('Response status:', response.status);
         console.log('Response headers:', response.headers);
@@ -82,7 +82,7 @@
       })
       .then(data => {
         console.log('Received data:', data);
-        
+
         if (!data || data.length === 0) {
           throw new Error('No data received from API');
         }
@@ -177,7 +177,7 @@
             }
           }
         });
-        
+
         console.log('Chart created successfully');
       })
       .catch(error => {
