@@ -7,5 +7,6 @@ Rails.application.routes.draw do
   namespace :api do
     get "currency", to: "currency#index"
     get "currency/test", to: "currency#test"
+    delete "currency/cache", to: "currency#clear_cache"
   end
 end

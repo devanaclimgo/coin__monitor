@@ -57,7 +57,8 @@ class HomeController < ApplicationController
         response_code: response.code,
         response_body_length: response.body.length,
         response_headers: response.to_hash,
-        success: response.code == "200"
+        success: response.code == "200",
+        rate_limited: response.code == "429"
       }
     rescue => e
       render json: {
@@ -93,7 +94,8 @@ class HomeController < ApplicationController
         response_code: response.code,
         response_time: (end_time - start_time).round(2),
         response_length: response.body.length,
-        response_preview: response.body[0..200]
+        response_preview: response.body[0..200],
+        rate_limited: response.code == "429"
       }
     rescue => e
       @api_test = {
@@ -107,6 +109,13 @@ class HomeController < ApplicationController
   private
 
   def fetch_currency_data(currency)
+    # Check cache first
+    cached_data = Rails.cache.read("home_currency_#{currency[:code]}")
+    if cached_data && !home_cached_data_expired?(currency[:code])
+      Rails.logger.info "Using cached home data for #{currency[:code]}"
+      return cached_data
+    end
+
     url = URI("https://economia.awesomeapi.com.br/json/daily/#{currency[:code]}/15")
 
     begin
@@ -133,7 +142,18 @@ class HomeController < ApplicationController
       Rails.logger.info "Response received in #{(end_time - start_time).round(2)}s"
       Rails.logger.info "Response code: #{response.code}"
 
-      if response.code != "200"
+      if response.code == "429"
+        Rails.logger.warn "Rate limit exceeded for #{currency[:code]}, using cached data if available"
+        # Try to get cached data for this specific currency
+        cached_currency = Rails.cache.read("home_currency_#{currency[:code]}")
+        if cached_currency
+          Rails.logger.info "Using cached data for #{currency[:code]}"
+          return cached_currency
+        else
+          Rails.logger.error "No cached data available for #{currency[:code]}"
+          return nil
+        end
+      elsif response.code != "200"
         Rails.logger.error "API returned #{response.code} for #{currency[:code]}: #{response.body}"
         Rails.logger.error "Response headers: #{response.to_hash}"
         return nil
@@ -156,6 +176,11 @@ class HomeController < ApplicationController
       }
 
       Rails.logger.info "Processed data for #{currency[:code]}: price=#{result[:price]}, change=#{result[:change24h]}%"
+      
+      # Cache the result for 1 hour
+      Rails.cache.write("home_currency_#{currency[:code]}", result, expires_in: 1.hour)
+      Rails.cache.write("home_currency_#{currency[:code]}_timestamp", Time.current, expires_in: 1.hour)
+      
       result
 
     rescue JSON::ParserError => e
@@ -177,5 +202,13 @@ class HomeController < ApplicationController
       Rails.logger.error "Backtrace: #{e.backtrace.first(5).join(', ')}"
       nil
     end
+  end
+
+  def home_cached_data_expired?(currency_code)
+    timestamp = Rails.cache.read("home_currency_#{currency_code}_timestamp")
+    return true if timestamp.nil?
+    
+    # Consider data expired if it's older than 1 hour
+    (Time.current - timestamp) > 1.hour
   end
 end

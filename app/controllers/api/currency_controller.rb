@@ -14,7 +14,14 @@ class Api::CurrencyController < ApplicationController
 
     Rails.logger.info "Starting currency API request for #{CURRENCIES.length} currencies"
     Rails.logger.info "Environment: #{Rails.env}"
-    Rails.logger.info "Request headers: #{request.headers.to_h.select { |k, v| k.start_with?('HTTP_') }}"
+
+    # Check if we have cached data first
+    cached_data = Rails.cache.read("currency_data")
+    if cached_data && !cached_data_expired?
+      Rails.logger.info "Using cached currency data"
+      render json: cached_data
+      return
+    end
 
     chart_data = CURRENCIES.map do |currency|
       begin
@@ -43,7 +50,18 @@ class Api::CurrencyController < ApplicationController
         Rails.logger.info "Response code: #{response.code}"
         Rails.logger.info "Response headers: #{response.to_hash}"
 
-        if response.code != "200"
+        if response.code == "429"
+          Rails.logger.warn "Rate limit exceeded for #{currency[:code]}, using cached data if available"
+          # Try to get cached data for this specific currency
+          cached_currency = Rails.cache.read("currency_#{currency[:code]}")
+          if cached_currency
+            Rails.logger.info "Using cached data for #{currency[:code]}"
+            next cached_currency
+          else
+            Rails.logger.error "No cached data available for #{currency[:code]}"
+            next
+          end
+        elsif response.code != "200"
           Rails.logger.error "API returned #{response.code} for #{currency[:code]}: #{response.body}"
           Rails.logger.error "Response headers: #{response.to_hash}"
           next
@@ -71,6 +89,10 @@ class Api::CurrencyController < ApplicationController
         }
 
         Rails.logger.info "Processed data for #{currency[:code]}: price=#{result[:price]}, change=#{result[:change24h]}%"
+        
+        # Cache individual currency data for 1 hour
+        Rails.cache.write("currency_#{currency[:code]}", result, expires_in: 1.hour)
+        
         result
 
       rescue JSON::ParserError => e
@@ -111,6 +133,10 @@ class Api::CurrencyController < ApplicationController
       end
     end
 
+    # Cache the complete dataset for 30 minutes
+    Rails.cache.write("currency_data", chart_data, expires_in: 30.minutes)
+    Rails.cache.write("currency_data_timestamp", Time.current, expires_in: 30.minutes)
+
     render json: chart_data
   end
 
@@ -139,7 +165,8 @@ class Api::CurrencyController < ApplicationController
         response_length: response.body.length,
         response_preview: response.body[0..200],
         environment: Rails.env,
-        timestamp: Time.current
+        timestamp: Time.current,
+        rate_limited: response.code == "429"
       }
     rescue => e
       render json: {
@@ -150,5 +177,42 @@ class Api::CurrencyController < ApplicationController
         timestamp: Time.current
       }
     end
+  end
+
+  def clear_cache
+    begin
+      # Clear all currency-related cache
+      CURRENCIES.each do |currency|
+        Rails.cache.delete("currency_#{currency[:code]}")
+        Rails.cache.delete("currency_#{currency[:code]}_timestamp")
+        Rails.cache.delete("home_currency_#{currency[:code]}")
+        Rails.cache.delete("home_currency_#{currency[:code]}_timestamp")
+      end
+      
+      Rails.cache.delete("currency_data")
+      Rails.cache.delete("currency_data_timestamp")
+      
+      render json: {
+        success: true,
+        message: "Cache cleared successfully",
+        timestamp: Time.current
+      }
+    rescue => e
+      render json: {
+        success: false,
+        error: e.message,
+        timestamp: Time.current
+      }
+    end
+  end
+
+  private
+
+  def cached_data_expired?
+    timestamp = Rails.cache.read("currency_data_timestamp")
+    return true if timestamp.nil?
+    
+    # Consider data expired if it's older than 30 minutes
+    (Time.current - timestamp) > 30.minutes
   end
 end
