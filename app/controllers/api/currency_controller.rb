@@ -32,13 +32,13 @@ class Api::CurrencyController < ApplicationController
         request["User-Agent"] = "CoinMonitor/1.0 (https://coin-monitor.onrender.com)"
         request["Accept"] = "application/json"
         request["Accept-Encoding"] = "gzip, deflate"
-        
+
         Rails.logger.info "Making request to #{url} with User-Agent: #{request['User-Agent']}"
-        
+
         start_time = Time.current
         response = http.request(request)
         end_time = Time.current
-        
+
         Rails.logger.info "Response received in #{(end_time - start_time).round(2)}s"
         Rails.logger.info "Response code: #{response.code}"
         Rails.logger.info "Response headers: #{response.to_hash}"
@@ -69,10 +69,10 @@ class Api::CurrencyController < ApplicationController
           sparklineData: sparkline,
           color: currency[:color]
         }
-        
+
         Rails.logger.info "Processed data for #{currency[:code]}: price=#{result[:price]}, change=#{result[:change24h]}%"
         result
-        
+
       rescue JSON::ParserError => e
         Rails.logger.error "JSON parsing error for #{currency[:code]}: #{e.message}"
         Rails.logger.error "Response body: #{response&.body}"
@@ -117,7 +117,7 @@ class Api::CurrencyController < ApplicationController
   def test
     begin
       Rails.logger.info "Testing external API connectivity"
-      
+
       url = URI("https://economia.awesomeapi.com.br/json/daily/USD-BRL/1")
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
@@ -127,11 +127,11 @@ class Api::CurrencyController < ApplicationController
 
       request = Net::HTTP::Get.new(url)
       request["User-Agent"] = "CoinMonitor/1.0 (https://coin-monitor.onrender.com)"
-      
+
       start_time = Time.current
       response = http.request(request)
       end_time = Time.current
-      
+
       render json: {
         success: response.code == "200",
         response_code: response.code,

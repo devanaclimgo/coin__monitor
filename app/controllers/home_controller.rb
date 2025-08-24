@@ -68,6 +68,42 @@ class HomeController < ApplicationController
     end
   end
 
+  def debug
+    @environment = Rails.env
+    @timestamp = Time.current
+    
+    # Test external API
+    begin
+      url = URI("https://economia.awesomeapi.com.br/json/daily/USD-BRL/1")
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = true
+      http.open_timeout = 10
+      http.read_timeout = 10
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+      request = Net::HTTP::Get.new(url)
+      request["User-Agent"] = "CoinMonitor/1.0 (https://coin-monitor.onrender.com)"
+      
+      start_time = Time.current
+      response = http.request(request)
+      end_time = Time.current
+      
+      @api_test = {
+        success: response.code == "200",
+        response_code: response.code,
+        response_time: (end_time - start_time).round(2),
+        response_length: response.body.length,
+        response_preview: response.body[0..200]
+      }
+    rescue => e
+      @api_test = {
+        success: false,
+        error: e.message,
+        error_class: e.class
+      }
+    end
+  end
+
   private
 
   def fetch_currency_data(currency)
@@ -75,7 +111,7 @@ class HomeController < ApplicationController
 
     begin
       Rails.logger.info "Fetching data for #{currency[:code]} from #{url}"
-      
+
       # Add timeout and better error handling
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
@@ -87,13 +123,13 @@ class HomeController < ApplicationController
       request["User-Agent"] = "CoinMonitor/1.0 (https://coin-monitor.onrender.com)"
       request["Accept"] = "application/json"
       request["Accept-Encoding"] = "gzip, deflate"
-      
+
       Rails.logger.info "Making request to #{url} with User-Agent: #{request['User-Agent']}"
-      
+
       start_time = Time.current
       response = http.request(request)
       end_time = Time.current
-      
+
       Rails.logger.info "Response received in #{(end_time - start_time).round(2)}s"
       Rails.logger.info "Response code: #{response.code}"
 
@@ -118,10 +154,10 @@ class HomeController < ApplicationController
         change24h: latest["pctChange"].to_f,
         color: currency[:color]
       }
-      
+
       Rails.logger.info "Processed data for #{currency[:code]}: price=#{result[:price]}, change=#{result[:change24h]}%"
       result
-      
+
     rescue JSON::ParserError => e
       Rails.logger.error "JSON parsing error for #{currency[:code]}: #{e.message}"
       Rails.logger.error "Response body: #{response&.body}"
