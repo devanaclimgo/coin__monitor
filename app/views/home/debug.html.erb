@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gray-900 text-white p-6">
   <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold mb-6">Debug Information</h1>
-    
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Environment Info -->
       <div class="bg-gray-800 p-6 rounded-lg">
@@ -18,28 +18,28 @@
       <div class="bg-gray-800 p-6 rounded-lg">
         <h2 class="text-xl font-semibold mb-4">External API Test</h2>
         <% if @api_test[:success] %>
-          <div class="text-green-400">
-            <p><strong>Status:</strong> ✅ Success</p>
-            <p><strong>Response Code:</strong> <%= @api_test[:response_code] %></p>
-            <p><strong>Response Time:</strong> <%= @api_test[:response_time] %>s</p>
-            <p><strong>Response Length:</strong> <%= @api_test[:response_length] %> bytes</p>
-          </div>
+        <div class="text-green-400">
+          <p><strong>Status:</strong> ✅ Success</p>
+          <p><strong>Response Code:</strong> <%= @api_test[:response_code] %></p>
+          <p><strong>Response Time:</strong> <%= @api_test[:response_time] %>s</p>
+          <p><strong>Response Length:</strong> <%= @api_test[:response_length] %> bytes</p>
+        </div>
         <% else %>
-          <div class="text-red-400">
-            <p><strong>Status:</strong> ❌ Failed</p>
-            <p><strong>Error:</strong> <%= @api_test[:error] %></p>
-            <p><strong>Error Class:</strong> <%= @api_test[:error_class] %></p>
-          </div>
+        <div class="text-red-400">
+          <p><strong>Status:</strong> ❌ Failed</p>
+          <p><strong>Error:</strong> <%= @api_test[:error] %></p>
+          <p><strong>Error Class:</strong> <%= @api_test[:error_class] %></p>
+        </div>
         <% end %>
       </div>
     </div>
 
     <!-- API Response Preview -->
     <% if @api_test[:success] && @api_test[:response_preview] %>
-      <div class="mt-6 bg-gray-800 p-6 rounded-lg">
-        <h2 class="text-xl font-semibold mb-4">API Response Preview</h2>
-        <pre class="bg-gray-900 p-4 rounded text-sm overflow-x-auto"><%= @api_test[:response_preview] %></pre>
-      </div>
+    <div class="mt-6 bg-gray-800 p-6 rounded-lg">
+      <h2 class="text-xl font-semibold mb-4">API Response Preview</h2>
+      <pre class="bg-gray-900 p-4 rounded text-sm overflow-x-auto"><%= @api_test[:response_preview] %></pre>
+    </div>
     <% end %>
 
     <!-- Test Links -->
@@ -65,15 +65,15 @@
 </div>
 
 <script>
-function testAPI() {
-  const resultDiv = document.getElementById('manual-test-result');
-  resultDiv.innerHTML = '<p class="text-yellow-400">Testing...</p>';
-  
-  fetch('/api/currency/test')
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        resultDiv.innerHTML = `
+  function testAPI() {
+    const resultDiv = document.getElementById('manual-test-result');
+    resultDiv.innerHTML = '<p class="text-yellow-400">Testing...</p>';
+
+    fetch('/api/currency/test')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          resultDiv.innerHTML = `
           <div class="text-green-400">
             <p><strong>✅ API Test Successful</strong></p>
             <p>Response Code: ${data.response_code}</p>
@@ -82,8 +82,8 @@ function testAPI() {
             <p>Environment: ${data.environment}</p>
           </div>
         `;
-      } else {
-        resultDiv.innerHTML = `
+        } else {
+          resultDiv.innerHTML = `
           <div class="text-red-400">
             <p><strong>❌ API Test Failed</strong></p>
             <p>Error: ${data.error}</p>
@@ -91,15 +91,15 @@ function testAPI() {
             <p>Environment: ${data.environment}</p>
           </div>
         `;
-      }
-    })
-    .catch(error => {
-      resultDiv.innerHTML = `
+        }
+      })
+      .catch(error => {
+        resultDiv.innerHTML = `
         <div class="text-red-400">
           <p><strong>❌ Request Failed</strong></p>
           <p>Error: ${error.message}</p>
         </div>
       `;
-    });
-}
+      });
+  }
 </script>

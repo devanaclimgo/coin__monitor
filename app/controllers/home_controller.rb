@@ -71,7 +71,7 @@ class HomeController < ApplicationController
   def debug
     @environment = Rails.env
     @timestamp = Time.current
-    
+
     # Test external API
     begin
       url = URI("https://economia.awesomeapi.com.br/json/daily/USD-BRL/1")
@@ -83,11 +83,11 @@ class HomeController < ApplicationController
 
       request = Net::HTTP::Get.new(url)
       request["User-Agent"] = "CoinMonitor/1.0 (https://coin-monitor.onrender.com)"
-      
+
       start_time = Time.current
       response = http.request(request)
       end_time = Time.current
-      
+
       @api_test = {
         success: response.code == "200",
         response_code: response.code,
